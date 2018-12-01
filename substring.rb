@@ -17,7 +17,7 @@ Next, make sure your method can handle multiple words:
 
 def substring(str,dictionary)
     i = 0 
-    return_hash = Hash.new
+    return_hash = Hash.new(0)
     str_array = str.split(" ")
     for str_word in str_array do
         i = 0
@@ -28,11 +28,7 @@ def substring(str,dictionary)
                 sub_str = str_word[i..x]
                 for word in dictionary do
                     if word==sub_str
-                        if return_hash[word] == nil
-                            return_hash[word] = 1
-                        else
                             return_hash[word] += 1
-                        end
                     end
                 end
                 x+= 1
@@ -40,12 +36,20 @@ def substring(str,dictionary)
             i += 1
         end
     end
-    return return_hash
+    return_hash = return_hash.sort_by do |word,count|
+        count
+    end
+    return_hash.reverse!
+    return_hash.each do |word,count|
+        puts "#{word}: #{count.to_s}"
+    end
 end
 
 dictionary = ["below","down","go","going","horn","how","howdy","it","i","low","own","part","partner","sit"]
-puts substring("Below",dictionary)
+substring("Below",dictionary)
 puts
-puts substring("Howdy partner, sit down!, How's it going?",dictionary)
 puts
-puts substring("below down go going", dictionary)
+ substring("Howdy partner, sit down!, How's it going?",dictionary)
+puts
+puts
+ substring("below down go going iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii", dictionary)
